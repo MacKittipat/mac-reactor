@@ -50,4 +50,35 @@ public class FluxTest {
         Thread.sleep(1000);
     }
 
+    @Test
+    public void fluxCreateSuccess() {
+        Flux.create(emitter -> {
+           for (int i=0; i<10; i++) {
+               emitter.next("next : " + i);
+           }
+           emitter.complete();
+        }).subscribe(
+                value -> System.out.println(value),
+                error -> System.out.println(error.getMessage()),
+                () -> System.out.println("Flux consumed.")
+        );
+    }
+
+    @Test
+    public void fluxCreateError() {
+        Flux.create(emitter -> {
+            for (int i=0; i<10; i++) {
+                if(i==5) {
+                    throw new IllegalArgumentException("There is an error!");
+                }
+                emitter.next("next : " + i);
+            }
+            emitter.complete();
+        }).subscribe(
+                value -> System.out.println(value),
+                error -> System.out.println(error.getMessage()),
+                () -> System.out.println("Flux consumed.")
+        );
+    }
+
 }

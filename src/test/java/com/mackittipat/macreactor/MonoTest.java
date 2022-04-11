@@ -22,4 +22,34 @@ class MonoTest {
         Mono.from(Mono.just("Mono 1")).subscribe(System.out::println);
     }
 
+    @Test
+    public void monoCreateSuccess() {
+        Mono.create(callback -> {
+            try {
+                callback.success("Hello");
+            } catch (Exception e) {
+                callback.error(e);
+            }
+        }).subscribe(
+                value -> System.out.println(value),
+                error -> System.out.println(error.getMessage()),
+                () -> System.out.println("Mono consumed.")
+        );
+    }
+
+    @Test
+    public void monoCreateError() {
+        Mono.create(callback -> {
+            try {
+                throw new IllegalArgumentException("There is an error!");
+            } catch (Exception e) {
+                callback.error(e);
+            }
+        }).subscribe(
+                value -> System.out.println(value),
+                error -> System.out.println(error.getMessage()),
+                () -> System.out.println("Mono consumed.")
+        );
+    }
+
 }
