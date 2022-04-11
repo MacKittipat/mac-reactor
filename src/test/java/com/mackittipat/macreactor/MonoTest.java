@@ -1,0 +1,25 @@
+package com.mackittipat.macreactor;
+
+import org.junit.jupiter.api.Test;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+class MonoTest {
+
+    @Test
+    public void monoJust() {
+        Mono.just("Hello").subscribe(System.out::println);
+    }
+
+    @Test
+    public void monoEmpty() {
+        Mono.empty().subscribe(System.out::println);
+    }
+
+    @Test
+    public void monoFrom() {
+        Mono.from(Flux.just("Flux 1", "Flux 2", "Flux 3")).subscribe(System.out::println);
+        Mono.from(Mono.just("Mono 1")).subscribe(System.out::println);
+    }
+
+}
