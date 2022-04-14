@@ -31,7 +31,7 @@ class MonoTest {
                 callback.error(e);
             }
         }).subscribe(
-                value -> System.out.println(value),
+                System.out::println,
                 error -> System.out.println(error.getMessage()),
                 () -> System.out.println("Mono consumed.")
         );
@@ -41,12 +41,12 @@ class MonoTest {
     public void monoCreateError() {
         Mono.create(callback -> {
             try {
-                throw new IllegalArgumentException("There is an error!");
+                callback.error(new IllegalArgumentException("There is an error!"));
             } catch (Exception e) {
                 callback.error(e);
             }
         }).subscribe(
-                value -> System.out.println(value),
+                System.out::println,
                 error -> System.out.println(error.getMessage()),
                 () -> System.out.println("Mono consumed.")
         );

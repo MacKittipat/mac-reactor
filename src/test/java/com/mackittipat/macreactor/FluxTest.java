@@ -58,7 +58,7 @@ public class FluxTest {
            }
            emitter.complete();
         }).subscribe(
-                value -> System.out.println(value),
+                System.out::println,
                 error -> System.out.println(error.getMessage()),
                 () -> System.out.println("Flux consumed.")
         );
@@ -69,13 +69,14 @@ public class FluxTest {
         Flux.create(emitter -> {
             for (int i=0; i<10; i++) {
                 if(i==5) {
-                    throw new IllegalArgumentException("There is an error!");
+                    emitter.error(new IllegalArgumentException("There is an error!"));
+                    return;
                 }
                 emitter.next("next : " + i);
             }
             emitter.complete();
         }).subscribe(
-                value -> System.out.println(value),
+                System.out::println,
                 error -> System.out.println(error.getMessage()),
                 () -> System.out.println("Flux consumed.")
         );
