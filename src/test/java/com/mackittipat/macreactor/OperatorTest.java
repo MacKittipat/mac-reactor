@@ -97,13 +97,16 @@ public class OperatorTest {
 
     @Test
     public void testDefer() {
-        // Subscriber get the same data
-        Flux<String> hotFlux = Flux.defer(() -> Flux.just(Math.random() + ""));
+        // All subscriber get same data
+        // Math.random() is executed immediately
+        Flux<String> hotFlux = Flux.just(Math.random() + "");
         hotFlux.subscribe(System.out::println);
         hotFlux.subscribe(System.out::println);
 
-        // Subscriber get difference data
-        Flux<String> coldFlux = Flux.just(Math.random() + "");
+        // All subscriber get difference data.
+        // The defer operator is there to make this source lazy,
+        // Math.random() is executed each time there is a new subscriber.
+        Flux<String> coldFlux = Flux.defer(() -> Flux.just(Math.random() + ""));
         coldFlux.subscribe(System.out::println);
         coldFlux.subscribe(System.out::println);
     }
