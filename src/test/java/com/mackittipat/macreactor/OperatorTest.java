@@ -94,4 +94,17 @@ public class OperatorTest {
                 .expectComplete()
                 .verify();
     }
+
+    @Test
+    public void testDefer() {
+        // Subscriber get the same data
+        Flux<String> hotFlux = Flux.defer(() -> Flux.just(Math.random() + ""));
+        hotFlux.subscribe(System.out::println);
+        hotFlux.subscribe(System.out::println);
+
+        // Subscriber get difference data
+        Flux<String> coldFlux = Flux.just(Math.random() + "");
+        coldFlux.subscribe(System.out::println);
+        coldFlux.subscribe(System.out::println);
+    }
 }
