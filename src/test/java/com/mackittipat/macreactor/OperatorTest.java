@@ -82,4 +82,16 @@ public class OperatorTest {
                 .expectComplete()
                 .verify();
     }
+
+    @Test
+    public void testThenMany() {
+        Flux<String> result = Flux.just("1", "2", "3")
+                .thenMany(Flux.just("A", "B", "C"));
+        StepVerifier.create(result)
+                .expectNext("A")
+                .expectNext("B")
+                .expectNext("C")
+                .expectComplete()
+                .verify();
+    }
 }
