@@ -25,14 +25,14 @@ public class OperatorTest {
     // flatMap is for asynchronous (non-blocking) 1-to-N transformations
     @Test
     public void testFlatMap() {
-        Flux<Integer> result = Flux.just(1, 2, 3).flatMap(i -> Flux.range(0, i));
+        Flux<Integer> result = Flux.just(1, 2, 3).flatMap(i -> Flux.range(1, i));
         StepVerifier.create(result)
-                .expectNext(0)
-                .expectNext(0)
                 .expectNext(1)
-                .expectNext(0)
                 .expectNext(1)
                 .expectNext(2)
+                .expectNext(1)
+                .expectNext(2)
+                .expectNext(3)
                 .expectComplete()
                 .verify();
     }
